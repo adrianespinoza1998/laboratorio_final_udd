@@ -1,4 +1,4 @@
-# Laboratorio 3 — Series Temporales
+# Laboratorio Final
 
 ## Contexto
 Egresos hospitalarios por **FECHAALTA**, frecuencia **diaria**, año **2024** (cobertura 100%).
@@ -30,3 +30,53 @@ Egresos hospitalarios por **FECHAALTA**, frecuencia **diaria**, año **2024** (c
 #- `data/processed/egresos_diarios_2024.csv`
 #- `reports/tables/metrics_global.csv` (+ métricas por horizonte)
 #- `reports/figures/` (EDA, STL, pronósticos)
+
+# Laboratorio Final: Análisis Exploratorio de Egresos Hospitalarios
+
+## Contexto
+
+Este repositorio corresponde al **Laboratorio Final**, que consiste en un análisis exploratorio de un dataset de egresos hospitalarios, con un enfoque en las diferencias por sexo. El análisis se centra en datos del año 2024 y utiliza la fecha de alta (`FECHAALTA`) como eje temporal principal.
+
+El análisis completo y el código se encuentran en el notebook `notebooks/data_quality_report_EDA2.ipynb`.
+
+## Flujo del Análisis
+
+El flujo de trabajo se divide en dos fases principales:
+
+### 1. Fase 1: Auditoría Temporal
+
+-   **Selección de Columna Temporal:** Se identifica y selecciona `FECHAALTA` como la columna de tiempo más adecuada para el análisis de series temporales.
+-   **Análisis de Calidad:** Se audita la serie temporal para el año 2024, confirmando una alta densidad de datos (99.5%), sin valores nulos y con solo un outlier detectado, lo que indica una serie de tiempo de alta calidad.
+-   **Frecuencia:** Se establece una frecuencia diaria para el análisis.
+
+### 2. Fase 2: Análisis Exploratorio de Datos (EDA) por Sexo
+
+-   **Limpieza y Preprocesamiento:**
+    -   Se manejan valores nulos, imputando con la media para variables numéricas y la moda para categóricas.
+    -   Se eliminan columnas con un alto porcentaje de valores faltantes.
+    -   Se corrigen y estandarizan los valores de la columna `SEXO`.
+-   **Visualización y Análisis Comparativo:**
+    -   Se generan visualizaciones para comparar la distribución de variables clave entre hombres y mujeres.
+    -   **Gráficos generados:** Boxplots, gráficos de barras, violin plots y gráficos de torta para visualizar las distribuciones de severidad, procedimientos y datos demográficos.
+
+## Hallazgos Clave
+
+-   **Distribución por Sexo:** La muestra se compone de un 58.1% de mujeres y un 41.9% de hombres.
+-   **Severidad de Casos:** La mayoría de los pacientes (tanto hombres como mujeres) se encuentran en niveles de severidad 2 y 3 (moderada a grave). Las mujeres muestran una mayor concentración en severidad 2, mientras que los hombres la tienen en severidad 3.
+-   **Procedimientos Médicos:**
+    -   Los promedios de los procedimientos (`PROCEDIMIENTO1`, `PROCEDIMIENTO5`) son muy similares entre ambos sexos.
+    -   Se observa una mayor variabilidad (desviación estándar más alta) en los procedimientos aplicados a los hombres, lo que podría sugerir una mayor diversidad en la complejidad de los casos.
+
+## Reproducibilidad
+
+1.  **Instalar dependencias:**
+    ```bash
+    pip install pandas matplotlib seaborn statsmodels
+    ```
+2.  **Ejecutar el análisis:**
+    Abrir y ejecutar el notebook `notebooks/data_quality_report_EDA2.ipynb`. Las figuras generadas se guardan en la carpeta `reports/figures/`.
+
+## Limitaciones
+
+-   Los códigos de procedimientos (ej. `PROCEDIMIENTO1`) están en formato CIE-9-MC y no incluyen descripciones textuales en el dataset. Para interpretarlos, se requeriría un diccionario de datos externo.
+-   El análisis se limita a las variables presentes en el dataset y no considera factores externos que podrían influir en los egresos hospitalarios.
